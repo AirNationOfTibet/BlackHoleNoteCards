@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import CollectionsItem from './CollectionsItem.js';
 
 import Nav from '../../components/Nav/Nav';
 
@@ -9,11 +10,21 @@ import { triggerLogout } from '../../redux/actions/loginActions';
 
 const mapStateToProps = state => ({
   user: state.user,
+  state,
 });
 
 class UserPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editing: 'false',
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+    this.props.dispatch({ type: 'FETCH_COLLECTION'})
   }
 
   componentDidUpdate() {
@@ -27,22 +38,25 @@ class UserPage extends Component {
     // this.props.history.push('home');
   }
 
-  render() {
-    let content = null;
 
+
+  render() {
+    let addCollectionEdit = <div>this.</div>
+
+    let collectionItem = this.props.state.collectionView.collectionReducer.map((collection)=>{
+      return(<CollectionsItem key={collection.id} collection={collection}/>)
+    })
+    let content = null;
     if (this.props.user.userName) {
       content = (
         <div>
-          <h1
+          <h2
             id="welcome"
           >
             Welcome, { this.props.user.userName }!
-          </h1>
-          <button
-            onClick={this.logout}
-          >
-            Log Out
-          </button>
+          </h2>
+
+          {collectionItem}
         </div>
       );
     }
@@ -51,6 +65,12 @@ class UserPage extends Component {
       <div>
         <Nav />
         { content }
+        { this.props.state.collectionReducer}
+        <button
+            onClick={this.logout}
+          >
+            Log Out
+          </button>
       </div>
     );
   }
