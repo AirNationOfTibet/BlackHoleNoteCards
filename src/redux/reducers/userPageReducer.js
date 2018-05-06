@@ -10,6 +10,16 @@ const collectionReducer = (state = [], action) => {
     }
 }
 
+const deckbuilderReducer = (state = [], action) =>{
+    switch(action.type){
+        case 'FILLINQUERY':
+            return action.payload
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
     collectionReducer,
+    deckbuilderReducer
   });

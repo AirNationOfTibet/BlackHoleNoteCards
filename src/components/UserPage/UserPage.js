@@ -18,30 +18,57 @@ class UserPage extends Component {
     super(props);
 
     this.state = {
-      editing: 'false',
+      editing: false,
+      collection: '',
     };
   }
 
+  handleAddEdit = () => {
+    if(this.state.editing === false){
+      console.log('setting state to true');
+      this.setState({
+        editing:true
+      })
+    } else {
+      console.log('setting state to false');
+      if(this.state.collection.length > 0){
+        this.props.dispatch({ 
+          type: 'POST_COLLECTION',
+          payload: this.state
+      })
+      }
+      this.setState({
+        editing: false,
+      })
+    }
+  }
+  handleCollectionText = (event) => {
+    this.setState({
+      collection: event.target.value,
+    })
+  }
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
     this.props.dispatch({ type: 'FETCH_COLLECTION'})
   }
-
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
   }
-
   logout = () => {
     this.props.dispatch(triggerLogout());
     // this.props.history.push('home');
   }
-
-
-
   render() {
-    let addCollectionEdit = <div>this.</div>
+    let addEdit;
+    if(this.state.editing === false){
+      addEdit = (
+          <div onClick={this.handleAddEdit}>Click on me to Add a New Collection</div>
+      )
+    } else {
+      addEdit = (<div><textarea onChange={this.handleCollectionText} placeholder='Type the name of your new collection'></textarea><br/><button onClick={this.handleAddEdit}>Add To Collection</button></div>)
+      }
 
     let collectionItem = this.props.state.collectionView.collectionReducer.map((collection)=>{
       return(<CollectionsItem key={collection.id} collection={collection}/>)
@@ -55,7 +82,7 @@ class UserPage extends Component {
           >
             Welcome, { this.props.user.userName }!
           </h2>
-
+          {addEdit}
           {collectionItem}
         </div>
       );

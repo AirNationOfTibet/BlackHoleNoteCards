@@ -8,9 +8,8 @@ const router = express.Router();
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('GET router reached');
-        const queryText = `SELECT * FROM collections;`;
-        pool.query(queryText).then((result)=>{
-            console.log('collections GET success', result);
+        const queryText = `SELECT * FROM collections WHERE "person_id" = $1;`;
+        pool.query(queryText, [req.user.id]).then((result)=>{
             res.send(result.rows);
         }).catch((err)=>{
             console.log('error collections GET route', err)

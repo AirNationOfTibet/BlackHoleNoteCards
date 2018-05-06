@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function* collectionSaga(){
     yield takeEvery('FETCH_COLLECTION', getCollectionSaga);
+    yield takeEvery('POST_COLLECTION', postCollectionSaga);
 }
 
 function* getCollectionSaga(action){
@@ -14,6 +15,18 @@ function* getCollectionSaga(action){
         })
     } catch(error){
         console.log('error in getting collection', error);
+    }
+}
+
+function* postCollectionSaga(action){
+    try{
+        console.log('actionpayload is this', action.payload);
+        yield call(axios.post, '/api/collection', action.payload)
+        yield put({
+            type: 'FETCH_COLLECTION'
+        })
+    } catch (error){
+        console.log(`WE AIN'T HAD NOTHING BUT MAGGOTY ERRORS FOR 3 STANKIN DAYS: `, error);
     }
 }
 

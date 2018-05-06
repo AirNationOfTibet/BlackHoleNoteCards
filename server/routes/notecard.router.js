@@ -2,12 +2,12 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('GET router reached');
-        const queryText = `SELECT * FROM notecards;`;
-        pool.query(queryText).then((result)=>{
-            console.log('notecards GET success', result);
+        const queryText = `SELECT * FROM notecards WHERE collection_id = $1`;
+        pool.query(queryText, [req.params.id]).then((result)=>{
+            console.log('notecards GET success', result.rows);
             res.send(result.rows);
         }).catch((err)=>{
             console.log('error notecards GET route', err)
