@@ -12,7 +12,7 @@ const collectionReducer = (state = [], action) => {
 
 const deckbuilderReducer = (state = [], action) =>{
     switch(action.type){
-        case 'FILLINQUERY':
+        case 'SET_NOTECARD_BUILD':
             return action.payload
         default:
             return state

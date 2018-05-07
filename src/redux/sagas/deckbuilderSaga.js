@@ -7,11 +7,12 @@ function* deckbuildSaga(){
 
 function* getNotecardSaga(action){
     try{
-        const notecardResponse = yield call(axios.get, `/api/notecard/${action.payload.id}`)
-        // yield put({
-        //     type:'',
-        //     payload: notecardResponse.data,
-        // })
+        const notecardResponse = yield call(axios.get, `/api/notecard/${action.payload.collection}`)
+        console.log('this is the action payload', action.payload);
+        yield put({
+            type:'SET_NOTECARD_BUILD',
+            payload: notecardResponse.data,
+        })
     } catch(error){
         console.log('error in getting notecard', error);
     }

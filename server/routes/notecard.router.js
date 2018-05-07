@@ -5,8 +5,8 @@ const router = express.Router();
 router.get('/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('GET router reached');
-        const queryText = `SELECT * FROM notecards WHERE collection_id = $1`;
-        pool.query(queryText, [req.params.id]).then((result)=>{
+        const queryText = `SELECT * FROM notecards WHERE collection_name = $1 AND collection_id = $2`;
+        pool.query(queryText, [req.params.id, req.user.id]).then((result)=>{
             console.log('notecards GET success', result.rows);
             res.send(result.rows);
         }).catch((err)=>{

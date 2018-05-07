@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import DeckBuilderItem from './DeckBuilderItem.js';
+import Grid from 'material-ui/Grid';
+
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -32,6 +34,10 @@ class DeckBuilder extends Component {
       content = (
         <div>
          {notecardBuilder}
+         <Grid container alignContent={'center'} justify={'center'}>
+         <button>Add Notecard</button>
+         <button>Quiz Me!</button>
+         </Grid>
         </div>
       );
     }
