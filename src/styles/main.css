@@ -8,7 +8,7 @@ body {
 }
 
 .instructions {
-    background-color:rgb(92, 171, 173);
+    background-color:rgb(24, 12, 196);
     padding: 5px;
     color: #ece7e7;
 }
@@ -48,7 +48,7 @@ input[type="submit"] {
 }
 
 .navbar {
-  background-color: #00acb0;
+  background-color: #7367df;
   width: 100%;
   border-radius: 0px;
 }

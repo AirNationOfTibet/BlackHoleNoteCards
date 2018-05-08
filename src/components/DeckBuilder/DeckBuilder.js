@@ -2,16 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import DeckBuilderItem from './DeckBuilderItem.js';
 import Grid from 'material-ui/Grid';
+import Button from 'material-ui/Button';
+import SimpleModalWrapped from './CardModal.js'
+import NotecardCard from './notecardCards.js'
 
 
-const mapStateToProps = state => ({
-  user: state.user,
-  state
+const mapStateToProps = reduxState => ({
+  user: reduxState.user,
+  reduxState
 });
 
 class DeckBuilder extends Component {
+  constructor(props){
+    super(props); 
+    this.state = {
+        open: 'false',
+    }
+}
+
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.props.dispatch({type: 'FETCH_NOTECARD'})
@@ -25,9 +34,8 @@ class DeckBuilder extends Component {
 
   render() {
     let content = null;
-    let notecardBuilder = this.props.state.collectionView.deckbuilderReducer.map((notecard)=>{
-    console.log('helloo', this.props.state.collectionView.deckbuilderReducer);
-      return( <DeckBuilderItem key={notecard.id} notecard={notecard}/> ) 
+    let notecardBuilder = this.props.reduxState.collectionView.deckbuilderReducer.map((notecard)=>{
+      return( <NotecardCard key={notecard.id} notecard={notecard}/> ) 
     })
 
     if (this.props.user.userName) {
@@ -35,9 +43,8 @@ class DeckBuilder extends Component {
         <div>
          {notecardBuilder}
          <Grid container alignContent={'center'} justify={'center'}>
-         <button>Add Notecard</button>
-         <button>Quiz Me!</button>
          </Grid>
+         <SimpleModalWrapped/>
         </div>
       );
     }
