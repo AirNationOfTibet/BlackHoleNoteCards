@@ -5,6 +5,21 @@ function* deckbuildSaga(){
     yield takeEvery('SET_DECKBUILDER_COLLECTION', getNotecardSaga);
     yield takeEvery('DELETE_NOTECARD', deleteNotecardSaga);
     yield takeEvery('ADD_NOTECARD', addNotecardSaga);
+    yield takeEvery('UPDATE_NOTECARD', updateNotecardSaga)
+}
+
+function* updateNotecardSaga(action){
+    try{
+        console.log('put payload is', action.payload)
+        yield call(axios.put, `/api/notecard/${action.payload.notecard.id}`, action.payload )
+        yield put({
+            type:'SET_DECKBUILDER_COLLECTION',
+            payload: action.payload.notecard
+        })
+    } catch (error) {
+        console.log('update notecard saga error', error)
+    }
+
 }
 
 function* addNotecardSaga(action){

@@ -35,9 +35,9 @@ class NotecardCard extends Component {
   state = { 
     expanded: false,
     editMode: false,
-    collection: this.props.notecard.collection,
-    frontside: this.props.notecard.frontside,
-    backside: this.props.notecard.backside,
+    collection: '',
+    frontside: '',
+    backside: '',
   };
 
   componentDidMount() {
@@ -58,12 +58,31 @@ class NotecardCard extends Component {
       editMode: true
     })
   }
-  handleInputs= (name) => {
+  changeEditNormal = (event) => {
+    this.setState({
+      editMode: false
+    })
+  }
+  handleInputs = (name) => {
     return(event)=>{
       this.setState({
         [name] : event.target.value,
       })
     }
+  }
+
+  editNotecard = (event) => {
+    event.preventDefault();
+    this.props.dispatch({
+      type:'UPDATE_NOTECARD',
+      payload: {
+        editContent:this.state,
+        notecard: this.props.notecard
+      }
+    })
+    this.setState({
+      editMode: false,
+    })
   }
 
   render() {
@@ -109,19 +128,17 @@ class NotecardCard extends Component {
       return(
         <Grid container direction={'column'} item xs={12}>
           <Card className={classes.card}>
-            <form>
-              Collection:<TextField value={this.props.notecard.collection} onChange={this.handleInputs('collection')} />
+            <form onSubmit={this.editNotecard}>
+              Front Side:<TextField onChange={this.handleInputs('frontside')} />
               <br/>
               <br/>
-              Front Side:<TextField value={this.props.notecard.frontside} onChange={this.handleInputs('frontside')} />
-              <br/>
-              <br/>
-              Back Side:<TextField value={this.props.notecard.backside} onChange={this.handleInputs('backside')} />
+              Back Side:<TextField onChange={this.handleInputs('backside')} />
               <br/>
               <br/>
               <br/>
               <br/>
-              <Button variant="flat" color="primary" type="submit" onClick={this.editNotecard}>Save</Button>
+              <Button variant="flat" color="primary" type="submit">Save</Button>
+              <Button variant="flat" color="primary" type="button" onClick={this.changeEditNormal}>Cancel</Button>
             </form>
           </Card>
         </Grid>
