@@ -1,16 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
 import Collapse from 'material-ui/transitions/Collapse';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
+import { IconButton, Typography, Grid, withStyles } from 'material-ui';
 import red from 'material-ui/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { connect } from 'react-redux';
-import Grid from 'material-ui/Grid';
+import { Delete, Edit, Favorite, ExpandMore} from '@material-ui/icons';
 
 const mapStateToProps = reduxState => ({
     reduxState,
@@ -18,11 +14,8 @@ const mapStateToProps = reduxState => ({
 
 const styles = theme => ({
   card: {
-    maxWidth: 400,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+    textAlign: 'center',
+    maxWidth: 500,
   },
   actions: {
     display: 'flex',
@@ -37,9 +30,6 @@ const styles = theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
 });
 
 class NotecardCard extends Component {
@@ -53,13 +43,18 @@ class NotecardCard extends Component {
     this.setState({ expanded: !this.state.expanded });
   };
 
+  handleDeleteClick = (event) => {
+    console.log('handleDeleteClicked');
+    this.props.deleteNotecard(this.props.notecard); 
+  }
+
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <Grid container direction={'column'} item xs={12}>
         <Card className={classes.card}>
           <CardHeader
-           subheader={this.props.notecard.collection_name}
+           subheader={this.props.notecard.collection}
           />
           <CardContent>
             <Typography>
@@ -68,7 +63,13 @@ class NotecardCard extends Component {
           </CardContent>
           <CardActions className={classes.actions} disableActionSpacing>
             <IconButton>
-              <FavoriteIcon/>
+              <Favorite/>
+            </IconButton>
+            <IconButton>
+              <Delete onClick={this.handleDeleteClick} />
+            </IconButton>
+            <IconButton>
+              <Edit />
             </IconButton>
             <IconButton
               className={classnames(classes.expand, {
@@ -77,7 +78,7 @@ class NotecardCard extends Component {
               onClick={this.handleExpandClick}
               aria-expanded={this.state.expanded}
             >
-              <ExpandMoreIcon />
+              <ExpandMore />
             </IconButton>
           </CardActions>
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
@@ -88,7 +89,7 @@ class NotecardCard extends Component {
             </CardContent>
           </Collapse>
         </Card>
-      </div>
+      </Grid>
     );
   }
 }

@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Modal from 'material-ui/Modal';
 import Button from 'material-ui/Button';
 import { applyMiddleware } from 'redux';
+import CollectionDropdown from './collectionDropdown.js'
+
+const mapStateToProps = reduxState => ({
+  reduxState,
+});
 
 
 function getModalStyle() {
@@ -32,8 +38,11 @@ const styles = theme => ({
 class SimpleModal extends Component {
   state = {
     open: false,
-
+    frontside: '',
+    backside: '',
+    collection: '',
   };
+  
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -43,9 +52,35 @@ class SimpleModal extends Component {
     this.setState({ open: false });
   };
 
-  render() {
-    const { classes } = this.props;
+  handleNotecard = (name) => {
+    return (event) => {
+      this.setState({
+        [name]: event.target.value,
+      })
+    }
+  }
 
+  addNewNotecard = event => {
+    event.preventDefault();
+    this.props.dispatch({ 
+      type: 'ADD_NOTECARD', 
+      payload: this.state
+    })
+    this.setState({
+      open: false,
+      frontide: '',
+      backside: '',
+      collection: '',
+    })
+  }
+  
+
+  render() {
+    let collectionDropdown = this.props.reduxState.collectionView.collectionReducer.map((collection)=>{
+      return(<CollectionDropdown key={collection.id} collection={collection}/>)
+    })
+
+    const { classes } = this.props;
     return (
       <div>
         <Button variant="raised" color="primary" onClick={this.handleOpen}>Add a New Card</Button>
@@ -56,13 +91,14 @@ class SimpleModal extends Component {
           onClose={this.handleClose}
         >
           <div style={getModalStyle()} className={classes.paper}>
-            <Typography>Front Side<br/><textarea rows='4' cols='50' style={{fontSize:'20px'}} placeholder='Type the name of your new collection'></textarea></Typography>
-            <Typography>Back Side<br/><textarea rows='4' cols='50' style={{fontSize:'20px'}} placeholder='Type the name of your new collection'></textarea></Typography>
-
+            <Typography>Front Side<br/><textarea rows='4' cols='50' style={{fontSize:'20px'}} onChange={this.handleNotecard('frontside')} placeholder='Your front notecard'></textarea></Typography>
+            <Typography>Back Side<br/><textarea rows='4' cols='50' style={{fontSize:'20px'}} onChange={this.handleNotecard('backside')} placeholder='Your back notecard'></textarea></Typography>
             <Typography variant="subheading" id="simple-modal-description">
-            
+            <select style={{fontSize:'35px'}} onChange={this.handleNotecard('collection')}>
+             {collectionDropdown}
+            </select>
             </Typography>
-            <Button variant="raised" color="primary" size="small">add</Button>
+            <Button variant="raised" color="primary" size="small" onClick={this.addNewNotecard}>add</Button>
           </div>
         </Modal>
       </div>
@@ -75,6 +111,9 @@ SimpleModal.propTypes = {
 };
 
 // We need an intermediary variable for handling the recursive nesting.
+
+
 const SimpleModalWrapped = withStyles(styles)(SimpleModal);
 
-export default SimpleModalWrapped;
+export default connect(mapStateToProps)(SimpleModalWrapped);
+

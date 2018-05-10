@@ -5,7 +5,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
 import SimpleModalWrapped from './CardModal.js'
-import NotecardCard from './notecardCards.js'
+import NotecardCard from './DeckBuildItem.js'
 
 
 const mapStateToProps = reduxState => ({
@@ -32,10 +32,20 @@ class DeckBuilder extends Component {
     }
   }
 
+  deleteNotecard = (notecard) => {
+    console.log('reached deleteNotecard', notecard);
+    this.props.dispatch({
+        type: 'DELETE_NOTECARD',
+        payload: {
+            notecard: notecard,
+        }
+    });
+  }
+
   render() {
     let content = null;
     let notecardBuilder = this.props.reduxState.collectionView.deckbuilderReducer.map((notecard)=>{
-      return( <NotecardCard key={notecard.id} notecard={notecard}/> ) 
+      return( <NotecardCard key={notecard.id} notecard={notecard} deleteNotecard={this.deleteNotecard} /> ) 
     })
 
     if (this.props.user.userName) {

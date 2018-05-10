@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CollectionsItem from './CollectionsItem.js';
 import './UserPageCss.css';
-import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
+import { IconButton, Typography, Grid, withStyles, Button } from 'material-ui';
+
 
 
 import Nav from '../../components/Nav/Nav';
@@ -50,7 +50,8 @@ class UserPage extends Component {
       })
       }
       this.setState({
-        editing: false,
+        editing:false,
+        collection: ''
       })
     }
   }
@@ -68,6 +69,17 @@ class UserPage extends Component {
       this.props.history.push('home');
     }
   }
+  
+  deleteItem = (item) => {
+    console.log('reached deleteItem', item);
+    this.props.dispatch({
+        type: 'DELETE_COLLECTION',
+        payload: {
+            item: item,
+        }
+    });
+  }
+
   render() {
     let addEdit;
     if(this.state.editing === false){
@@ -79,7 +91,7 @@ class UserPage extends Component {
       }
 
     let collectionItem = this.props.state.collectionView.collectionReducer.map((collection)=>{
-      return(<CollectionsItem key={collection.id} collection={collection}/>)
+      return(<CollectionsItem key={collection.id} collection={collection} deleteItem={this.deleteItem}/>)
     })
     let content = null;
     if (this.props.user.userName) {

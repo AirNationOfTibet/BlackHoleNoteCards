@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('GET router reached');
-        const queryText = `SELECT * FROM collections WHERE "person_id" = $1;`;
+        const queryText = `SELECT * FROM collections WHERE "person_id" = $1 ORDER BY id desc;`;
         pool.query(queryText, [req.user.id]).then((result)=>{
             res.send(result.rows);
         }).catch((err)=>{
@@ -33,6 +33,22 @@ router.post('/', (req, res) => {
         })
     } else{
         res.sendStatus(403);
+    }
+});
+
+router.delete('/:id', (req, res) => {
+    if(req.isAuthenticated()) {
+        const queryText = `DELETE FROM "collections" WHERE id = $1`; 
+        pool.query(queryText, [req.params.id])
+        .then((result)=> {
+            res.sendStatus(200);
+        }).catch((err)=>{
+            console.log('ERROR DELETE /api/collection', err)
+            res.sendStatus(500);
+        });
+    }
+    else {
+        res.sendStatus(403); 
     }
 });
 
