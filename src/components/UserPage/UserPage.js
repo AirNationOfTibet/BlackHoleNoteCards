@@ -2,22 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CollectionsItem from './CollectionsItem.js';
 import './UserPageCss.css';
-import { IconButton, Typography, Grid, withStyles, Button } from 'material-ui';
+import { Grid, Button } from 'material-ui';
 
 
 
 import Nav from '../../components/Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  input: {
-    display: 'none',
-  },
-});
 
 
 const mapStateToProps = state => ({
@@ -84,7 +75,7 @@ class UserPage extends Component {
     let addEdit;
     if(this.state.editing === false){
       addEdit = (
-          <div style={{height: '100px', fontSize:'30px'}} onClick={this.handleAddEdit}>Click Me To Add Collection</div>
+          <div className='aCollection' style={{height: '100px', fontSize:'30px'}} onClick={this.handleAddEdit}>Add Collection</div>
       )
     } else {
       addEdit = (<div style={{height: '100px'}}><textarea rows='3' cols='60' style={{fontSize:'25px'}} onChange={this.handleCollectionText} placeholder='Type the name of your new collection'></textarea><br/><Button variant="raised" color="primary" onClick={this.handleAddEdit}>Add</Button></div>)

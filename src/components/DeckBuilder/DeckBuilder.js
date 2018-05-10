@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
 import SimpleModalWrapped from './CardModal.js'
 import NotecardCard from './DeckBuildItem.js'
 

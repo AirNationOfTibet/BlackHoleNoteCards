@@ -3,15 +3,29 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './UserPageCss.css';
 import { Delete } from '@material-ui/icons';
-import { IconButton, Grid} from 'material-ui';
+import { IconButton, Grid, Tooltip, withStyles} from 'material-ui';
+import PropTypes from 'prop-types';
 
 
 const mapStateToProps = state => ({
     state
-  });
+});
 
 
-class CollectionsItem extends Component {
+const styles = theme => ({
+  fab: {
+    margin: theme.spacing.unit * 2,
+  },
+  absolute: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 3,
+  },
+});
+
+
+class CollectionsItemStart extends Component {
+  
 
   handleNotecardCollection = (collection) =>{
     this.props.dispatch({
@@ -34,14 +48,22 @@ class CollectionsItem extends Component {
         {this.props.collection.collection}
         </Link>
         <div>
-          <IconButton>
-            <Delete onClick={this.handleDeleteClick} />
-          </IconButton>
+          <Tooltip id="tooltip-icon" title="Delete">
+            <IconButton>
+              <Delete onClick={this.handleDeleteClick} />
+            </IconButton>
+          </Tooltip>
         </div>
       </Grid>
       </div>
     )
   }
 }
+
+CollectionsItemStart.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+const CollectionsItem = withStyles(styles)(CollectionsItemStart);
 
 export default connect(mapStateToProps)(CollectionsItem);

@@ -5,7 +5,6 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Modal from 'material-ui/Modal';
 import Button from 'material-ui/Button';
-import { applyMiddleware } from 'redux';
 import CollectionDropdown from './collectionDropdown.js'
 
 const mapStateToProps = reduxState => ({
@@ -68,7 +67,7 @@ class SimpleModal extends Component {
     })
     this.setState({
       open: false,
-      frontide: '',
+      frontside: '',
       backside: '',
       collection: '',
     })
@@ -94,10 +93,12 @@ class SimpleModal extends Component {
             <Typography>Front Side<br/><textarea rows='4' cols='50' style={{fontSize:'20px'}} onChange={this.handleNotecard('frontside')} placeholder='Your front notecard'></textarea></Typography>
             <Typography>Back Side<br/><textarea rows='4' cols='50' style={{fontSize:'20px'}} onChange={this.handleNotecard('backside')} placeholder='Your back notecard'></textarea></Typography>
             <Typography variant="subheading" id="simple-modal-description">
-            <select style={{fontSize:'35px'}} onChange={this.handleNotecard('collection')}>
+            <select style={{fontSize:'30px'}} onChange={this.handleNotecard('collection')}>
+            <option>Choose collection</option>
              {collectionDropdown}
             </select>
             </Typography>
+            <br/>
             <Button variant="raised" color="primary" size="small" onClick={this.addNewNotecard}>add</Button>
           </div>
         </Modal>
@@ -109,9 +110,6 @@ class SimpleModal extends Component {
 SimpleModal.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-// We need an intermediary variable for handling the recursive nesting.
-
 
 const SimpleModalWrapped = withStyles(styles)(SimpleModal);
 

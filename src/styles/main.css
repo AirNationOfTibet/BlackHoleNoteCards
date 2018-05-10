@@ -1,5 +1,5 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    font-family: "Gill Sans", sans-serif;
 }
 
 .instructions h1 {
@@ -78,3 +78,4 @@ li a:hover {
     text-decoration: underline;
     color: #eee;
 }
+

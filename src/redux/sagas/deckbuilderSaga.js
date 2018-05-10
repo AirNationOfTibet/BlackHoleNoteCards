@@ -7,21 +7,14 @@ function* deckbuildSaga(){
     yield takeEvery('ADD_NOTECARD', addNotecardSaga);
 }
 
-function* postCollectionSaga(action){
-    try{
-        console.log('actionpayload is this', action.payload);
-        yield call(axios.post, '/api/collection', action.payload)
-        yield put({
-            type: 'FETCH_COLLECTION'
-        })
-    } catch (error){
-        console.log(`WE AIN'T HAD NOTHING BUT MAGGOTY ERRORS FOR 3 STANKIN DAYS: `, error);
-    }
-}
-
 function* addNotecardSaga(action){
     try{
         console.log('add action paylaod is ', action.payload);
+        yield call(axios.post, '/api/notecard', action.payload)
+        yield put({
+            type: 'SET_DECKBUILDER_COLLECTION',
+            payload: action.payload
+        })
     } catch (error) {
         console.log('add saga error ',  error);
     }

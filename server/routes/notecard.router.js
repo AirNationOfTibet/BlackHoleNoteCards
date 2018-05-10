@@ -34,18 +34,18 @@ router.get('/:id', (req, res) => {
     }
 });
 
-// router.post('/', (req, res) => {
-//     if (req.isAuthenticated()){
-//         let queryText='INSERT INTO "collections" ("collection", person_id) VALUES ($1, $2);';
-//         pool.query(queryText, [req.body.collection, req.user.id]).then((result) =>{
-//             res.sendStatus(200);
-//         }).catch((err) =>{
-//             res.sendStatus(500);
-//         })
-//     } else{
-//         res.sendStatus(403);
-//     }
-// });
+router.post('/',(req, res)=>{
+    if(req.isAuthenticated()){
+        let queryText=`INSERT INTO "notecards" ("frontside", "backside", "collection", "collection_id") VALUES ($1, $2, $3, $4);`;
+        pool.query(queryText, [req.body.frontside, req.body.backside, req.body.collection, req.user.id]).then((result)=>{
+            res.sendStatus(200);
+        }).catch((err)=>{
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(403);
+    }
+})
 
 
 
