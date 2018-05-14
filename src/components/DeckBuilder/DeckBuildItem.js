@@ -128,7 +128,7 @@ class NotecardCard extends Component {
       return(
         <Grid container direction={'column'} item xs={12}>
           <Card className={classes.card}>
-            <form onSubmit={this.editNotecard}>
+            <div className="editForm" onSubmit={this.editNotecard}>
               Front Side:<TextField onChange={this.handleInputs('frontside')} />
               <br/>
               <br/>
@@ -139,7 +139,7 @@ class NotecardCard extends Component {
               <br/>
               <Button variant="flat" color="primary" type="submit">Save</Button>
               <Button variant="flat" color="primary" type="button" onClick={this.changeEditNormal}>Cancel</Button>
-            </form>
+            </div>
           </Card>
         </Grid>
       )}

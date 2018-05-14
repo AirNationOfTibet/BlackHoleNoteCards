@@ -64,25 +64,27 @@ class LoginPage extends Component {
       <div>
         { this.renderAlert() }
         <form onSubmit={this.login}>
-          <h1>Login</h1>
+          <h2 className="loginh2">Continue by logging in</h2>
           <div>
             <label htmlFor="username">
-              Username:
               <input
+                size="50"
                 type="text"
                 name="username"
                 value={this.state.username}
+                placeholder="Username"
                 onChange={this.handleInputChangeFor('username')}
               />
             </label>
           </div>
           <div>
             <label htmlFor="password">
-              Password:
               <input
+                size="50"
                 type="password"
                 name="password"
                 value={this.state.password}
+                placeholder="Password"
                 onChange={this.handleInputChangeFor('password')}
               />
             </label>
@@ -93,7 +95,7 @@ class LoginPage extends Component {
               name="submit"
               value="Log In"
             />
-            <Link to="/register">Register</Link>
+            <Link className="loginLink" to="/register">Register</Link>
           </div>
         </form>
       </div>

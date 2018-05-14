@@ -7,6 +7,10 @@
     
 }
 
+#welcome{
+    color: blue;
+}
+
 .aCollection:hover {
     -webkit-animation: mymove 3s infinite;
     -webkit-animation-fill-mode: mymove forwards;
@@ -14,7 +18,7 @@
 }
 
 @keyframes mymove {
-    from {color: blue;}
-    to {color: yellow;}
+    from {color: whitesmoke;}
+    to {color: blue;}
 }
 
